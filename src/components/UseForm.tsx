@@ -42,7 +42,7 @@ const UseFormPage: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h1 className="text-xl font-bold mb-2">useForm</h1>
+      <h1 className="text-xl font-bold mb-2">React hook form</h1>
       <form onSubmit={handleSubmit} name="crud-form">
         <input name="title" placeholder="Title" className="border p-1 mr-2" />
         <input name="desc" placeholder="Desc" className="border p-1 mr-2" />
