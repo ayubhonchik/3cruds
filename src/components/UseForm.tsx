@@ -8,7 +8,7 @@ interface Item {
 
 const UseFormPage: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [edit, setEdit] = useState<number | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,9 +16,9 @@ const UseFormPage: React.FC = () => {
     const title = form.get('title')?.toString() || '';
     const desc = form.get('desc')?.toString() || '';
 
-    if (editId !== null) {
-      setItems(items.map(i => (i.id === editId ? { ...i, title, desc } : i)));
-      setEditId(null);
+    if (edit !== null) {
+      setItems(items.map(i => (i.id === edit ? { ...i, title, desc } : i)));
+      setEdit(null);
     } else {
       setItems([...items, { id: Date.now(), title, desc }]);
     }
@@ -30,13 +30,13 @@ const UseFormPage: React.FC = () => {
     const form = document.forms.namedItem('crud-form')!;
     (form.elements.namedItem('title') as HTMLInputElement).value = item.title;
     (form.elements.namedItem('desc') as HTMLInputElement).value = item.desc;
-    setEditId(item.id);
+    setEdit(item.id);
   };
 
   const handleDelete = (id: number) => {
     setItems(items.filter(i => i.id !== id));
-    if (editId === id) {
-      setEditId(null);
+    if (edit === id) {
+      setEdit(null);
     }
   };
 
@@ -47,7 +47,7 @@ const UseFormPage: React.FC = () => {
         <input name="title" placeholder="Title" className="border p-1 mr-2" />
         <input name="desc" placeholder="Desc" className="border p-1 mr-2" />
         <button type="submit" className="bg-purple-600 text-white px-3 py-1">
-          {editId ? 'save' : 'submit'}
+          {edit ? 'save' : 'submit'}
         </button>
       </form>
 

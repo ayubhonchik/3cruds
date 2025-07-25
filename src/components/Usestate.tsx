@@ -9,16 +9,16 @@ interface Item {
 const UseStatePage: React.FC = () => {
   const [form, setForm] = useState({ title: '', desc: '' });
   const [items, setItems] = useState<Item[]>([]);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [edit, setEdit] = useState<number | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    if (editId !== null) {
-      setItems(items.map(i => (i.id === editId ? { ...i, ...form } : i)));
-      setEditId(null);
+    if (edit !== null) {
+      setItems(items.map(i => (i.id === edit ? { ...i, ...form } : i)));
+      setEdit(null);
     } else {
       setItems([...items, { id: Date.now(), ...form }]);
     }
@@ -27,13 +27,13 @@ const UseStatePage: React.FC = () => {
 
   const handleEdit = (item: Item) => {
     setForm({ title: item.title, desc: item.desc });
-    setEditId(item.id);
+    setEdit(item.id);
   };
 
   const handleDelete = (id: number) => {
     setItems(items.filter(i => i.id !== id));
-    if (editId === id) {
-      setEditId(null);
+    if (edit === id) {
+      setEdit(null);
       setForm({ title: '', desc: '' });
     }
   };
@@ -44,7 +44,7 @@ const UseStatePage: React.FC = () => {
       <input name="title" value={form.title} onChange={handleChange} placeholder="Title" className="border p-1 mr-2" />
       <input name="desc" value={form.desc} onChange={handleChange} placeholder="Desc" className="border p-1 mr-2" />
       <button onClick={handleSubmit} className="bg-blue-500 text-white px-3 py-1">
-        {editId ? 'save' : 'submit'}
+        {edit ? 'save' : 'submit'}
       </button>
 
       <ul className="mt-4">

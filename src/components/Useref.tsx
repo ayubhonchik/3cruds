@@ -10,7 +10,7 @@ const UseRefPage: React.FC = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Item[]>([]);
-  const [editId, setEditId] = useState<number | null>(null);
+  const [edit, setEdit] = useState<number | null>(null);
 
   const handleSubmit = () => {
     const title = titleRef.current?.value || '';
@@ -18,9 +18,9 @@ const UseRefPage: React.FC = () => {
 
     if (!title || !desc) return;
 
-    if (editId !== null) {
-      setItems(items.map(i => (i.id === editId ? { ...i, title, desc } : i)));
-      setEditId(null);
+    if (edit !== null) {
+      setItems(items.map(i => (i.id === edit ? { ...i, title, desc } : i)));
+      setEdit(null);
     } else {
       setItems([...items, { id: Date.now(), title, desc }]);
     }
@@ -33,14 +33,14 @@ const UseRefPage: React.FC = () => {
     if (titleRef.current && descRef.current) {
       titleRef.current.value = item.title;
       descRef.current.value = item.desc;
-      setEditId(item.id);
+      setEdit(item.id);
     }
   };
 
   const handleDelete = (id: number) => {
     setItems(items.filter(i => i.id !== id));
-    if (editId === id) {
-      setEditId(null);
+    if (edit === id) {
+      setEdit(null);
     }
   };
 
@@ -50,7 +50,7 @@ const UseRefPage: React.FC = () => {
       <input ref={titleRef} placeholder="Title" className="border p-1 mr-2" />
       <input ref={descRef} placeholder="Desc" className="border p-1 mr-2" />
       <button onClick={handleSubmit} className="bg-green-600 text-white px-3 py-1">
-        {editId ? 'save' : 'submit'}
+        {edit ? 'save' : 'submit'}
       </button>
 
       <ul className="mt-4">
